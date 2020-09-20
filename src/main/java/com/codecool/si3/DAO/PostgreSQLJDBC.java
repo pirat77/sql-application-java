@@ -1,9 +1,8 @@
-package com.codecool.si3;
+package com.codecool.si3.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import org.postgresql.Driver;
 
 public class PostgreSQLJDBC {
     private final String HOST = "//127.0.0.1";
@@ -16,7 +15,7 @@ public class PostgreSQLJDBC {
     private Connection connection = null;
     private static PostgreSQLJDBC JDBCInstance;
 
-    static PostgreSQLJDBC getInstance(){
+    public static PostgreSQLJDBC getInstance(){
         if (JDBCInstance == null) JDBCInstance = new PostgreSQLJDBC();
         return JDBCInstance;
     }
