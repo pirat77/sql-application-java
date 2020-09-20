@@ -1,6 +1,6 @@
 package com.codecool.si3.model;
 
-public class Mentor {
+public class Mentor implements Displayable {
     private int id;
     private String first_name;
     private String last_name;
@@ -72,5 +72,11 @@ public class Mentor {
 
     public int getFavourite_number() {
         return favourite_number;
+    }
+
+    @Override
+    public String[] toStringList() {
+        return new String[]{Integer.toString(getId()), getFirst_name(), getLast_name(), getNick_name(),
+                getPhone_number(), getEmail(), getCity(), Integer.toString(getFavourite_number())};
     }
 }

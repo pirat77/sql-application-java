@@ -1,5 +1,6 @@
 package com.codecool.si3.view;
 
+import com.codecool.si3.model.Displayable;
 import com.jakewharton.fliptables.FlipTable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class View {
     private String[] commandHeaders;
     private String[] querryHeaders;
-    private List<> querryList;
+    private List<Displayable> querryList;
     private List<Displayable> commandList;
 
     public View(){

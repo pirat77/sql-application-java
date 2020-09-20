@@ -1,6 +1,6 @@
 package com.codecool.si3.model;
 
-public class Applicant {
+public class Applicant implements Displayable {
     private int id;
     private String first_name;
     private String last_name;
@@ -54,5 +54,10 @@ public class Applicant {
 
     public int getApplication_code() {
         return application_code;
+    }
+
+    @Override
+    public String[] toStringList() {
+        return new String[]{Integer.toString(getId()), first_name, last_name, phone_number, email, Integer.toString(application_code)};
     }
 }
