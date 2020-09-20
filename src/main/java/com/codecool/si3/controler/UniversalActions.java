@@ -101,6 +101,27 @@ public class UniversalActions  {
             viewMentorDetails("first_name", "%");
         }
 
+        private void removeMentor() {
+            String id = Integer.toString(InputProvider.getInstance().getIntInput("Enter mentor id:"));
+            List<Mentor> mentors = MentorDao.getInstance().getMentorById(new Entry("id", id));
+            if (mentors.size() == 1) {
+                MentorDao.getInstance().remove(mentors.get(0));
+                viewAllMentorsDetails();
+            } else {
+                System.out.println("There is no mentor with given id!");
+            }
+        }
+
+        private void removeApplicant() {
+            String id = Integer.toString(InputProvider.getInstance().getIntInput("Enter applicant id:"));
+            List<Applicant> applicants = ApplicantDao.getInstance().getAppById(new Entry("id", id));
+            if (applicants.size() == 1) {
+                ApplicantDao.getInstance().remove(applicants.get(0));
+                viewAllApplicantsDetails();
+            } else {
+                System.out.println("There is no applicant with given id!");
+            }
+        }
         private void viewApplicantsDetails(String column, String value){
             String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "PHONE_NUMBER", "EMAIL", "APPLICATION_CODE"};
             View.getInstance().setQuerryHeaders(querryHeaders);
@@ -124,8 +145,10 @@ public class UniversalActions  {
             options.add(new MenuOption("Get mentors by column value", this::getMentorByColumn));
             options.add(new MenuOption("Update applicant details.", this::updateApplicantDetails));
             options.add(new MenuOption("Update mentor details.", this::updateMentorDetails));
-            options.add(new MenuOption("Insert new mentor", this::insertMentor));
-            options.add(new MenuOption("Insert new applicant", this::insertApplicant));
+            options.add(new MenuOption("Insert new mentor.", this::insertMentor));
+            options.add(new MenuOption("Insert new applicant.", this::insertApplicant));
+            options.add(new MenuOption("Remove mentor by id.", this::removeMentor));
+            options.add(new MenuOption("Remove applicant by id.", this::removeApplicant));
             options.add(new MenuOption("Exit this labirynth now!", this::exitLab));
             return options;
         }
