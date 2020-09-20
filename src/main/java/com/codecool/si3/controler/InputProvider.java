@@ -1,12 +1,16 @@
 package com.codecool.si3.controler;
 
 import java.util.Scanner;
-import java.util.Stack;
 
-public class InputProvider {
+public final class InputProvider {
     private Scanner scan;
+    private static InputProvider inputProvider;
 
-    public InputProvider() {
+    public static InputProvider getInstance(){
+        if (inputProvider == null) inputProvider = new InputProvider();
+        return inputProvider;
+    }
+    private InputProvider() {
         scan = new Scanner(System.in);
         scan.useDelimiter(System.lineSeparator());
     }

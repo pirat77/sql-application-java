@@ -5,13 +5,19 @@ import com.jakewharton.fliptables.FlipTable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class View {
+public final class View {
     private String[] commandHeaders;
     private String[] querryHeaders;
     private List<Displayable> querryList;
     private List<Displayable> commandList;
+    private static View view;
 
-    public View(){
+    public static View getInstance(){
+        if (view == null) view = new View();
+        return view;
+    }
+
+    private View(){
         this.commandHeaders = new String[]{"Key:", "Action:"};
         this.querryHeaders = new String[]{"Id", "Name", "Surname", "Role", "Category"};
         this.querryList = new ArrayList<>();

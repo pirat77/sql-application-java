@@ -9,9 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicantDao  extends SQLDao<Applicant> implements Dao<Applicant> {
+public final class ApplicantDao  extends SQLDao<Applicant> implements Dao<Applicant> {
+    static ApplicantDao applicantDao;
 
-    public ApplicantDao(){
+    public static ApplicantDao getInstance(){
+        if (applicantDao == null) applicantDao = new ApplicantDao();
+        return applicantDao;
+    }
+
+
+    private ApplicantDao(){
         super("applicants", new String[]{"id", "first_name", "last_name", "phone_number", "email", "application_code"});
     }
 

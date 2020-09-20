@@ -8,7 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
+public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
+    static MentorDao mentorDao;
+
+    public static MentorDao getInstance(){
+        if (mentorDao == null) mentorDao = new MentorDao();
+        return mentorDao;
+    }
 
     public MentorDao(){
         super("applicants", new String[]{"id", "first_name", "last_name", "nick_name", "phone_number", "email", "city", "favourite_number"});
