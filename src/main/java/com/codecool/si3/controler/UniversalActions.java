@@ -21,7 +21,7 @@ public class UniversalActions  {
                 applicant.setEmail(InputProvider.getInstance().getStringInput("Provide new email"));
                 applicant.setApplication_code(InputProvider.getInstance().getIntInput("Provide new application code"));
                 ApplicantDao.getInstance().update(applicant);
-                viewApplicantsDetails();
+                viewAllApplicantsDetails();
             }    else {
                 InputProvider.getInstance().getStringInput("There is no applicant with that id! Press enter to confirm.");
             }
@@ -35,7 +35,7 @@ public class UniversalActions  {
             applicant.setEmail(InputProvider.getInstance().getStringInput("Provide email."));
             applicant.setApplication_code(InputProvider.getInstance().getIntInput("Provide application code."));
             ApplicantDao.getInstance().insert(applicant);
-            viewApplicantsDetails();
+            viewAllApplicantsDetails();
         }
 
         private void insertMentor(){
@@ -48,7 +48,7 @@ public class UniversalActions  {
             mentor.setCity(InputProvider.getInstance().getStringInput("Provide city."));
             mentor.setFavourite_number(InputProvider.getInstance().getIntInput("Provide favourite number."));
             MentorDao.getInstance().insert(mentor);
-            viewMentorDetails();
+            viewAllMentorsDetails();
         }
 
         private void updateMentorDetails(){
@@ -64,16 +64,16 @@ public class UniversalActions  {
                 mentor.setCity(InputProvider.getInstance().getStringInput("Provide new city."));
                 mentor.setFavourite_number(InputProvider.getInstance().getIntInput("Provide new favourite number."));
                 MentorDao.getInstance().update(mentor);
-                viewMentorDetails();
+                viewAllMentorsDetails();
             }   else {
                 InputProvider.getInstance().getStringInput("There is no mentor with that id! Press enter to confirm.");
             }
         }
 
-        private void viewMentorDetails(){
+        private void viewMentorDetails(String column, String value){
             String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "NICK_NAME", "PHONE_NUMBER", "EMAIL", "CITY", "FAVOURITE NUMBER"};
             View.getInstance().setQuerryHeaders(querryHeaders);
-            List<Mentor> mentors = MentorDao.getInstance().getObjects(new Entry("first_name", "%"));
+            List<Mentor> mentors = MentorDao.getInstance().getObjects(new Entry(column, "%" + value + "%"));
             List<Displayable> displayableMentors = new ArrayList<>();
             for (Mentor mentor: mentors){
                 displayableMentors.add((Displayable) mentor);
@@ -81,10 +81,30 @@ public class UniversalActions  {
             View.getInstance().setQuerryList(displayableMentors);
         }
 
-        private void viewApplicantsDetails(){
+        private void getMentorByColumn(){
+            String column = InputProvider.getInstance().getStringInput("Enter column name:");
+            String value = InputProvider.getInstance().getStringInput("Enter column value:");
+            viewMentorDetails(column, value);
+        }
+
+        private void getApplicantByColumn(){
+            String column = InputProvider.getInstance().getStringInput("Enter column name:");
+            String value = InputProvider.getInstance().getStringInput("Enter column value:");
+            viewApplicantsDetails(column, value);
+        }
+
+        private void viewAllApplicantsDetails(){
+            viewApplicantsDetails("first_name", "%");
+        }
+
+        private void viewAllMentorsDetails(){
+            viewMentorDetails("first_name", "%");
+        }
+
+        private void viewApplicantsDetails(String column, String value){
             String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "PHONE_NUMBER", "EMAIL", "APPLICATION_CODE"};
             View.getInstance().setQuerryHeaders(querryHeaders);
-            List<Applicant> applicants = ApplicantDao.getInstance().getObjects(new Entry("first_name", "%"));
+            List<Applicant> applicants = ApplicantDao.getInstance().getObjects(new Entry(column, "%" + value + "%"));
             List<Displayable> displayableApplicants = new ArrayList<>();
             for (Applicant applicant: applicants){
                 displayableApplicants.add((Displayable) applicant);
@@ -98,8 +118,10 @@ public class UniversalActions  {
 
         public List<MenuOption> returnActions() {
             List<MenuOption> options = new ArrayList<>();
-            options.add(new MenuOption("View all applicants.", this::viewApplicantsDetails));
-            options.add(new MenuOption("View all mentors.", this::viewMentorDetails));
+            options.add(new MenuOption("View all applicants.", this::viewAllApplicantsDetails));
+            options.add(new MenuOption("View all mentors.", this::viewAllMentorsDetails));
+            options.add(new MenuOption("Get applicants by column value.", this::getApplicantByColumn));
+            options.add(new MenuOption("Get mentors by column value", this::getMentorByColumn));
             options.add(new MenuOption("Update applicant details.", this::updateApplicantDetails));
             options.add(new MenuOption("Update mentor details.", this::updateMentorDetails));
             options.add(new MenuOption("Insert new mentor", this::insertMentor));
