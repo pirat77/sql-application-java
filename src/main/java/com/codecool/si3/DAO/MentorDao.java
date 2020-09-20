@@ -1,6 +1,4 @@
 package com.codecool.si3.DAO;
-
-import com.codecool.si3.model.Applicant;
 import com.codecool.si3.model.Mentor;
 import com.codecool.si3.model.Entry;
 
