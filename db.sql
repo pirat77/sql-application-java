@@ -1,6 +1,6 @@
 create table mentors
 (
-    id integer not null
+    id serial not null
         constraint mentors_pk
             primary key,
     first_name text not null,
@@ -9,15 +9,18 @@ create table mentors
     phone_number text not null,
     email text not null,
     city text not null,
-    favourtie_number integer not null
+    favourite_number integer
 );
 
 alter table mentors
     owner to postgres;
 
+create unique index mentors_id_uindex
+	on mentors (id);
+
 create table applicants
 (
-	id integer not null
+	id serial not null
 		constraint applicants_pk
 			primary key,
 	first_name text not null,
@@ -29,3 +32,6 @@ create table applicants
 
 alter table applicants
 	owner to postgres;
+
+create unique index applicants_id_uindex
+	on applicants (id);
