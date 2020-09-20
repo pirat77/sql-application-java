@@ -1,10 +1,8 @@
 package com.codecool.si3.controler;
 
 import com.codecool.si3.DAO.ApplicantDao;
-import com.codecool.si3.model.Applicant;
-import com.codecool.si3.model.Displayable;
-import com.codecool.si3.model.Entry;
-import com.codecool.si3.model.MenuOption;
+import com.codecool.si3.DAO.MentorDao;
+import com.codecool.si3.model.*;
 import com.codecool.si3.view.View;
 
 import java.util.ArrayList;
@@ -31,6 +29,32 @@ public class UniversalActions  {
 
         private void updateMentorDetails(){
             String id = Integer.toString(InputProvider.getInstance().getIntInput("Provide mentor id"));
+            List<Mentor> mentors = MentorDao.getInstance().getMentorById(new Entry("id", id));
+            if (mentors.size() == 1) {
+                Mentor mentor = mentors.get(0);
+                mentor.setFirst_name(InputProvider.getInstance().getStringInput("Provide new first name."));
+                mentor.setLast_name(InputProvider.getInstance().getStringInput("Provide new last name."));
+                mentor.setNick_name(InputProvider.getInstance().getStringInput("Provide new nick name."));
+                mentor.setPhone_number(InputProvider.getInstance().getStringInput("Provide new phone number."));
+                mentor.setEmail(InputProvider.getInstance().getStringInput("Provide new email."));
+                mentor.setCity(InputProvider.getInstance().getStringInput("Provide new city."));
+                mentor.setFavourite_number(InputProvider.getInstance().getIntInput("Provide new favourite number."));
+                MentorDao.getInstance().update(mentor);
+                viewMentorDetails();
+            }   else {
+                InputProvider.getInstance().getStringInput("There is no mentor with that id! Press enter to confirm.");
+            }
+        }
+
+        private void viewMentorDetails(){
+            String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "NICK_NAME", "PHONE_NUMBER", "EMAIL", "CITY", "FAVOURITE NUMBER"};
+            View.getInstance().setQuerryHeaders(querryHeaders);
+            List<Mentor> mentors = MentorDao.getInstance().getObjects(new Entry("first_name", "%"));
+            List<Displayable> displayableMentors = new ArrayList<>();
+            for (Mentor mentor: mentors){
+                displayableMentors.add((Displayable) mentor);
+            }
+            View.getInstance().setQuerryList(displayableMentors);
         }
 
         private void viewApplicantsDetails(){
@@ -51,9 +75,10 @@ public class UniversalActions  {
         public List<MenuOption> returnActions() {
             List<MenuOption> options = new ArrayList<>();
             options.add(new MenuOption("View all applicants.", this::viewApplicantsDetails));
-            options.add(new MenuOption("Update appplicant details.", this::updateApplicantDetails));
+            options.add(new MenuOption("View all mentors.", this::viewMentorDetails));
+            options.add(new MenuOption("Update applicant details.", this::updateApplicantDetails));
+            options.add(new MenuOption("Update mentor details.", this::updateMentorDetails));
             options.add(new MenuOption("Exit this labirynth now!", this::exitLab));
-            System.out.println(options);
             return options;
         }
     }

@@ -48,7 +48,7 @@ public abstract class SQLDao<T> {
 
     private void createGetByIdString(){ this.getByIdString = "SELECT * FROM " + this.tableName + " WHERE %s = ?"; }
 
-    private void createRemoveString(){ this.removeString = "DELETE FROM " + this.tableName + "  WHERE Id =  ? "; }
+    private void createRemoveString(){ this.removeString = "DELETE FROM " + this.tableName + "  WHERE Id =  ?"; }
 
     private void createColumnsString(){
         StringBuilder columns = new StringBuilder(" ( " + columnNames[0]);

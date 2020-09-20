@@ -18,7 +18,7 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
     }
 
     public MentorDao(){
-        super("applicants", new String[]{"id", "first_name", "last_name", "nick_name", "phone_number", "email", "city", "favourite_number"});
+        super("mentors", new String[]{"id", "first_name", "last_name", "nick_name", "phone_number", "email", "city", "favourite_number"});
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
     @Override
     public void insert(Mentor mentor) { insertRecord(objectToArray(mentor)); }
 
-    public List<Mentor> getAppById(Entry entry){
+    public List<Mentor> getMentorById(Entry entry){
         return mentorListFromResultSet(getById(entry));
     }
 
@@ -62,11 +62,11 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
                 mentor.setPhone_number(resultSet.getString("phone_number"));
                 mentor.setEmail(resultSet.getString("email"));
                 mentor.setCity(resultSet.getString("city"));
-                mentor.setFavourite_number(resultSet.getInt("favourite_nubmer"));
+                mentor.setFavourite_number(resultSet.getInt("favourite_number"));
                 mentors.add(mentor);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return mentors;
     }
