@@ -7,38 +7,8 @@ public class Mentor {
     private String nick_name;
     private String phone_number;
     private String email;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public String getNick_name() {
-        return nick_name;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public int getFavourite_number() {
-        return favourite_number;
-    }
+    private String city;
+    private int favourite_number;
 
     public void setId(int id) {
         this.id = id;
@@ -72,7 +42,35 @@ public class Mentor {
         this.favourite_number = favourite_number;
     }
 
-    private String city;
-    private int favourite_number;
+    public int getId() {
+        return id;
+    }
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public int getFavourite_number() {
+        return favourite_number;
+    }
 }
