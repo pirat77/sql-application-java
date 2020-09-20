@@ -14,7 +14,7 @@ public class UniversalActions  {
 
         private void updateApplicantDetails(){
             String id = Integer.toString(InputProvider.getInstance().getIntInput("Provide applicant Id"));
-            List<Applicant> applicants = ApplicantDao.getInstance().getObjects(new Entry("id", id));
+            List<Applicant> applicants = ApplicantDao.getInstance().getAppById(new Entry("id", id));
             if (applicants.size() == 1) {
                 Applicant applicant = applicants.get(0);
                 applicant.setFirst_name(InputProvider.getInstance().getStringInput("Provide new first name."));
@@ -23,15 +23,16 @@ public class UniversalActions  {
                 applicant.setEmail(InputProvider.getInstance().getStringInput("Provide new email"));
                 applicant.setApplication_code(InputProvider.getInstance().getIntInput("Provide new application code"));
                 ApplicantDao.getInstance().update(applicant);
+                viewApplicantsDetails();
             }    else {
                 InputProvider.getInstance().getStringInput("There is no applicant with that id! Press enter to confirm.");
             }
         }
 
         private void viewApplicantsDetails(){
-            String [] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "PHONE_NUMBER", "EMAIL", "APPLICATION_CODE"};
+            String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "PHONE_NUMBER", "EMAIL", "APPLICATION_CODE"};
             View.getInstance().setQuerryHeaders(querryHeaders);
-            List<Applicant> applicants = ApplicantDao.getInstance().getObjects(new Entry("id", "%"));
+            List<Applicant> applicants = ApplicantDao.getInstance().getObjects(new Entry("first_name", "%"));
             List<Displayable> displayableApplicants = new ArrayList<>();
             for (Applicant applicant: applicants){
                 displayableApplicants.add((Displayable) applicant);
@@ -48,7 +49,7 @@ public class UniversalActions  {
             options.add(new MenuOption("View all applicants.", this::viewApplicantsDetails));
             options.add(new MenuOption("Update appplicant details.", this::updateApplicantDetails));
             options.add(new MenuOption("Exit this labirynth now!", this::exitLab));
+            System.out.println(options);
             return options;
         }
-
     }

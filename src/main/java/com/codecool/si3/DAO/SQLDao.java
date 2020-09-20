@@ -17,6 +17,7 @@ public abstract class SQLDao<T> {
     protected String insertString;
     protected String removeString;
     protected String selectString;
+    protected String getByIdString;
     protected HashMap<String, Boolean> isIntFlag;
 
     public SQLDao(String tableName, String[] columnNames) {
@@ -40,9 +41,12 @@ public abstract class SQLDao<T> {
         createInsertString();
         createRemoveString();
         createSelectString();
+        createGetByIdString();
     }
 
     private void createSelectString(){ this.selectString = "SELECT * FROM " + this.tableName + " WHERE %s LIKE ?"; }
+
+    private void createGetByIdString(){ this.getByIdString = "SELECT * FROM " + this.tableName + " WHERE %s = ?"; }
 
     private void createRemoveString(){ this.removeString = "DELETE FROM " + this.tableName + "  WHERE Id =  ? "; }
 
@@ -97,7 +101,12 @@ public abstract class SQLDao<T> {
     protected void updateRecord(Entry[] newValues) {
         String id = newValues[0].getColumnValue();
         StringBuilder query = new StringBuilder("UPDATE " + tableName + " SET ");
-        for (String column : columnNames) { query.append(column).append(" = ?"); }
+        for (int i=0; i<columnNames.length; i++){
+            query.append(columnNames[i]).append(" = ?");
+            if (i != columnNames.length-1){
+                query.append(", ");
+            }
+        }
         query.append(" WHERE Id = ").append(id).append(";");
         executeQuery(query.toString(), newValues);
     }
@@ -110,10 +119,15 @@ public abstract class SQLDao<T> {
         executeQuery(this.insertString, values);
     }
 
+    protected ResultSet getById(Entry entry){
+        Entry[] parameters = new Entry[]{entry};
+        String searchQuery = String.format(this.getByIdString, entry.getColumnName());
+        return executeQuery(searchQuery, parameters);
+    }
+
     protected  ResultSet getRecords(Entry entry){
         Entry[] parameters = new Entry[]{entry};
         String searchQuery = String.format(this.selectString, entry.getColumnName());
-        System.out.println(searchQuery);
         return executeQuery(searchQuery, parameters);
     }
 

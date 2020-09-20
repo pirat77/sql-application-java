@@ -7,13 +7,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuController {
+public final class MenuController {
     private Map<Integer, MenuOption> actionMap;
+    private static MenuController menuController;
 
-    public MenuController(View view){
+    public static MenuController getInstance(){
+        if (menuController == null) menuController = new MenuController();
+        return menuController;
+    }
+
+    private MenuController(){
         actionMap = new HashMap<>();
         actionMap = new ActionAssembler().getMap();
-        view.setCommandList(new ArrayList<>(this.getActionMap().values()));
+        View.getInstance().setCommandList(new ArrayList<>(this.getActionMap().values()));
     }
 
     public Map<Integer, MenuOption> getActionMap() {
