@@ -29,6 +29,10 @@ public class UniversalActions  {
             }
         }
 
+        private void updateMentorDetails(){
+            String id = Integer.toString(InputProvider.getInstance().getIntInput("Provide mentor id"));
+        }
+
         private void viewApplicantsDetails(){
             String[] querryHeaders = {"ID", "FIRST_NAME", "LAST_NAME", "PHONE_NUMBER", "EMAIL", "APPLICATION_CODE"};
             View.getInstance().setQuerryHeaders(querryHeaders);

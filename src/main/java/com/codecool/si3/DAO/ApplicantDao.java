@@ -45,44 +45,31 @@ public final class ApplicantDao  extends SQLDao<Applicant> implements Dao<Applic
     public void insert(Applicant applicant) { insertRecord(objectToArray(applicant)); }
 
     public List<Applicant> getAppById(Entry entry){
-        List<Applicant> applicants = new ArrayList<>();
-        ResultSet resultSet = getById(entry);
-        try {
-            while (resultSet.next()) {
-                Applicant applicant = new Applicant();
-                applicant.setId(resultSet.getInt("id"));
-                applicant.setFirst_name(resultSet.getString("first_name"));
-                applicant.setLast_name(resultSet.getString("last_name"));
-                applicant.setPhone_number(resultSet.getString("phone_number"));
-                applicant.setEmail(resultSet.getString("email"));
-                applicant.setApplication_code(resultSet.getInt("application_code"));
-                applicants.add(applicant);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return applicants;
+        return applicantListFromResultSet(getById(entry));
     }
+
+   public List<Applicant> applicantListFromResultSet(ResultSet resultSet){
+       List<Applicant> applicants = new ArrayList<>();
+       try {
+           while (resultSet.next()) {
+               Applicant applicant = new Applicant();
+               applicant.setId(resultSet.getInt("id"));
+               applicant.setFirst_name(resultSet.getString("first_name"));
+               applicant.setLast_name(resultSet.getString("last_name"));
+               applicant.setPhone_number(resultSet.getString("phone_number"));
+               applicant.setEmail(resultSet.getString("email"));
+               applicant.setApplication_code(resultSet.getInt("application_code"));
+               applicants.add(applicant);
+           }
+       } catch (SQLException throwables) {
+           throwables.printStackTrace();
+       }
+       return applicants;
+   }
 
     @Override
     public List<Applicant> getObjects(Entry entry) {
-        List<Applicant> applicants = new ArrayList<>();
-        ResultSet resultSet = getRecords(entry);
-        try {
-            while (resultSet.next()) {
-                Applicant applicant = new Applicant();
-                applicant.setId(resultSet.getInt("id"));
-                applicant.setFirst_name(resultSet.getString("first_name"));
-                applicant.setLast_name(resultSet.getString("last_name"));
-                applicant.setPhone_number(resultSet.getString("phone_number"));
-                applicant.setEmail(resultSet.getString("email"));
-                applicant.setApplication_code(resultSet.getInt("application_code"));
-                applicants.add(applicant);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return applicants;
+         return applicantListFromResultSet(getRecords(entry));
     }
 }
 

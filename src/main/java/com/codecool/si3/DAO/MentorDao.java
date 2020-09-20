@@ -1,5 +1,6 @@
 package com.codecool.si3.DAO;
 
+import com.codecool.si3.model.Applicant;
 import com.codecool.si3.model.Mentor;
 import com.codecool.si3.model.Entry;
 
@@ -26,7 +27,7 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
         Entry first_name = new Entry("first_name", mentor.getFirst_name());
         Entry last_name = new Entry("last_name", mentor.getLast_name());
         Entry nick_name = new Entry("nick_name", mentor.getNick_name());
-        Entry phone_number = new Entry("pohne_number", mentor.getPhone_number());
+        Entry phone_number = new Entry("phone_number", mentor.getPhone_number());
         Entry email = new Entry("email", mentor.getEmail());
         Entry city = new Entry("city", mentor.getCity());
         Entry favourite_number = new Entry("favourite_number", Integer.toString(mentor.getFavourite_number()));
@@ -45,10 +46,12 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
     @Override
     public void insert(Mentor mentor) { insertRecord(objectToArray(mentor)); }
 
-    @Override
-    public List<Mentor> getObjects(Entry entry) {
+    public List<Mentor> getAppById(Entry entry){
+        return mentorListFromResultSet(getById(entry));
+    }
+
+    private List<Mentor> mentorListFromResultSet(ResultSet resultSet){
         List<Mentor> mentors = new ArrayList<>();
-        ResultSet resultSet = getRecords(entry);
         try {
             while (resultSet.next()) {
                 Mentor mentor = new Mentor();
@@ -66,5 +69,10 @@ public final class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
             throwables.printStackTrace();
         }
         return mentors;
+    }
+
+    @Override
+    public List<Mentor> getObjects(Entry entry) {
+        return mentorListFromResultSet(getRecords(entry));
     }
 }

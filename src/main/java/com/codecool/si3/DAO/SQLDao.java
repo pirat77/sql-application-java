@@ -94,7 +94,6 @@ public abstract class SQLDao<T> {
             } else {
                 this.statement.setString(i, parameters[i-1].getColumnValue());
             }
-            System.out.println(statement.toString());
         }
     }
 
@@ -132,5 +131,4 @@ public abstract class SQLDao<T> {
     }
 
     protected abstract Entry[] objectToArray(T t);
-
 }
