@@ -27,6 +27,30 @@ public class UniversalActions  {
             }
         }
 
+        private void insertApplicant(){
+            Applicant applicant = new Applicant();
+            applicant.setFirst_name(InputProvider.getInstance().getStringInput("Provide first name."));
+            applicant.setLast_name(InputProvider.getInstance().getStringInput("Provide last name."));
+            applicant.setPhone_number(InputProvider.getInstance().getStringInput("Provide phone number."));
+            applicant.setEmail(InputProvider.getInstance().getStringInput("Provide email."));
+            applicant.setApplication_code(InputProvider.getInstance().getIntInput("Provide application code."));
+            ApplicantDao.getInstance().insert(applicant);
+            viewApplicantsDetails();
+        }
+
+        private void insertMentor(){
+            Mentor mentor = new Mentor();
+            mentor.setFirst_name(InputProvider.getInstance().getStringInput("Provide first name."));
+            mentor.setLast_name(InputProvider.getInstance().getStringInput("Provide last name."));
+            mentor.setNick_name(InputProvider.getInstance().getStringInput("Provide nick name."));
+            mentor.setPhone_number(InputProvider.getInstance().getStringInput("Provide phone number."));
+            mentor.setEmail(InputProvider.getInstance().getStringInput("Provide email."));
+            mentor.setCity(InputProvider.getInstance().getStringInput("Provide city."));
+            mentor.setFavourite_number(InputProvider.getInstance().getIntInput("Provide favourite number."));
+            MentorDao.getInstance().insert(mentor);
+            viewMentorDetails();
+        }
+
         private void updateMentorDetails(){
             String id = Integer.toString(InputProvider.getInstance().getIntInput("Provide mentor id"));
             List<Mentor> mentors = MentorDao.getInstance().getMentorById(new Entry("id", id));
@@ -78,6 +102,8 @@ public class UniversalActions  {
             options.add(new MenuOption("View all mentors.", this::viewMentorDetails));
             options.add(new MenuOption("Update applicant details.", this::updateApplicantDetails));
             options.add(new MenuOption("Update mentor details.", this::updateMentorDetails));
+            options.add(new MenuOption("Insert new mentor", this::insertMentor));
+            options.add(new MenuOption("Insert new applicant", this::insertApplicant));
             options.add(new MenuOption("Exit this labirynth now!", this::exitLab));
             return options;
         }

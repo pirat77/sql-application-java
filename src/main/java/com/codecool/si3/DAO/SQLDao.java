@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class SQLDao<T> {
@@ -51,15 +52,15 @@ public abstract class SQLDao<T> {
     private void createRemoveString(){ this.removeString = "DELETE FROM " + this.tableName + "  WHERE Id =  ?"; }
 
     private void createColumnsString(){
-        StringBuilder columns = new StringBuilder(" ( " + columnNames[0]);
-        for (int i=1; i<columnNames.length; i++) { columns.append(", " + columnNames[i]); }
+        StringBuilder columns = new StringBuilder(" ( " + columnNames[1]);
+        for (int i=2; i<columnNames.length; i++) { columns.append(", " + columnNames[i]); }
         columns.append(" ) ");
         this.columnsString = columns.toString();
     }
 
     private void createInsertString() {
         StringBuilder query = new StringBuilder("INSERT INTO " + this.tableName + this.columnsString + " VALUES ( ? ");
-        for (int i = 1; i < columnNames.length; i++) { query.append(", ?"); }
+        for (int i = 2; i < columnNames.length; i++) { query.append(", ?"); }
         query.append(")");
         this.insertString = query.toString();
     }
@@ -115,7 +116,7 @@ public abstract class SQLDao<T> {
     }
 
     protected void insertRecord(Entry[] values) {
-        executeQuery(this.insertString, values);
+        executeQuery(this.insertString, Arrays.copyOfRange(values, 1, values.length));
     }
 
     protected ResultSet getById(Entry entry){
