@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MentorDAO  extends SQLDao<Mentor> implements Dao<Mentor> {
+public class MentorDao  extends SQLDao<Mentor> implements Dao<Mentor> {
 
-    public MentorDAO(){
+    public MentorDao(){
         super("applicants", new String[]{"id", "first_name", "last_name", "nick_name", "phone_number", "email", "city", "favourite_number"});
     }
 
